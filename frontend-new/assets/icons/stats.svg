@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Outline Stats (Try-On) -->
+  <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+    <rect x="4" y="12" width="4" height="8" rx="2"/>
+    <rect x="10" y="7" width="4" height="13" rx="2"/>
+    <rect x="16" y="4" width="4" height="16" rx="2"/>
+  </g>
+</svg>

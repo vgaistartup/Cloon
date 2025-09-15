@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Outline Hanger (Closet) -->
+  <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Hook -->
+    <path d="M12 9.8c0-1.05 1.3-1.1 1.3-2 0-.97-.78-1.75-1.75-1.75S9.8 6.83 9.8 7.8"/>
+    <!-- Triangle -->
+    <path d="M4 16.5L12 10l8 6.5"/>
+    <!-- Base -->
+    <path d="M6 18.5h12"/>
+  </g>
+</svg>

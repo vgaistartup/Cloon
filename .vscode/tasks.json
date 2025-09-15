@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Expo: start frontend-new on fixed port",
+			"type": "shell",
+			"command": "cd frontend-new && npx expo start --clear --port 8084",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		}
+	]
+}
