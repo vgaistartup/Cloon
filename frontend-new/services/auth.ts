@@ -32,8 +32,13 @@ export class AuthService {
   }
 
   static async isAuthenticated(): Promise<boolean> {
-    const token = await AsyncStorage.getItem('access_token');
-    return !!token;
+    try {
+      const token = await AsyncStorage.getItem('access_token');
+      return !!token;
+    } catch (error) {
+      console.warn('Auth check failed:', error);
+      return false; // Return false instead of crashing
+    }
   }
 
   static async getUserId(): Promise<string | null> {

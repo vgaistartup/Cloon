@@ -1,7 +1,8 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:8000';
+// For production/demo, we'll use a placeholder or disable API calls
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'https://api.example.com'; // Placeholder for production
 
 // Create axios instance
 const api = axios.create({
@@ -9,6 +10,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // Add timeout to prevent hanging
 });
 
 // Add auth token to requests
