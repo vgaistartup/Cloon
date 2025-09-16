@@ -1,7 +1,0 @@
-{
-  "devDependencies": {
-    "react-native-svg-transformer": "^1.5.1",
-    "typescript": "~5.9.2",
-    "@types/react": "~19.1.10"
-  }
-}

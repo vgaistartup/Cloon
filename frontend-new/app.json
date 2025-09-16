@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "scheme": "virtual-try-on",
     "plugins": [
       "expo-router",
@@ -18,7 +18,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vgaistartup.virtualtryon",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,14 +32,27 @@
       "edgeToEdgeEnabled": true,
       "package": "com.vgaistartup.virtualtryonapp"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "c904d310-0083-4a1c-a044-98cb18c3da0f"
+        "projectId": "0ad34123-01eb-4bef-8e5e-f678da9c6231"
       }
-    }
+    },
+    "runtimeVersion": "54.0.0",
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/0ad34123-01eb-4bef-8e5e-f678da9c6231"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "owner": "vgaistartup"
   }
 }

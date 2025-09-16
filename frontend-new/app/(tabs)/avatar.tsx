@@ -38,78 +38,6 @@ interface ClosetBottomSheetProps {
   onExitSelectionMode?: () => void;
 }
 
-interface LongPressActionBarProps {
-  visible: boolean;
-  onClose: () => void;
-  onAddToQueue: () => void;
-  onPost: () => void;
-  onDelete: () => void;
-  selectedCount?: number;
-}
-
-const LongPressActionBar: React.FC<LongPressActionBarProps> = ({
-  visible,
-  onClose,
-  onAddToQueue,
-  onPost,
-  onDelete,
-  selectedCount = 1,
-}) => (
-  <Modal
-    visible={visible}
-    transparent
-    animationType="fade"
-    onRequestClose={onClose}
-  >
-    <TouchableOpacity
-      style={styles.modalOverlay}
-      activeOpacity={1}
-      onPress={onClose}
-    >
-      <View style={styles.actionBarContainer}>
-        {selectedCount > 1 && (
-          <View style={styles.selectionHeader}>
-            <Text style={styles.selectionCountText}>
-              {selectedCount} Selected
-            </Text>
-          </View>
-        )}
-        <View style={styles.actionBar}>
-          <TouchableOpacity
-            style={[styles.longPressActionButton, styles.addToQueueButton]}
-            onPress={onAddToQueue}
-            accessibilityLabel="Add to queue"
-            accessibilityRole="button"
-          >
-            <Ionicons name="add-circle-outline" size={16} color="#FFFFFF" />
-            <Text style={styles.actionButtonText}>Add to Queue</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.longPressActionButton, styles.postButton]}
-            onPress={onPost}
-            accessibilityLabel="Post"
-            accessibilityRole="button"
-          >
-            <Ionicons name="share-outline" size={16} color="#666666" />
-            <Text style={styles.postButtonText}>Post</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.longPressActionButton, styles.deleteButton]}
-            onPress={onDelete}
-            accessibilityLabel="Delete"
-            accessibilityRole="button"
-          >
-            <Ionicons name="trash-outline" size={16} color="#FFFFFF" />
-            <Text style={styles.actionButtonText}>Delete</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </TouchableOpacity>
-  </Modal>
-);
-
 function ClosetBottomSheet({
   isOpen,
   onOpenChange,
@@ -336,8 +264,6 @@ export default function AvatarScreen() {
   // Multi-selection state
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
-  const [actionBarVisible, setActionBarVisible] = useState(false);
-  const [selectedClosetItem, setSelectedClosetItem] = useState<{id: string, image: string, name?: string, inQueue?: boolean} | null>(null);
   // Sheet dismiss handler
   const closeSheet = () => {
     setShowSheet(false);
@@ -475,54 +401,11 @@ export default function AvatarScreen() {
 
   const handleClosetItemLongPress = (item: {id: string, image: string, name?: string, inQueue?: boolean}) => {
     if (!selectionMode) {
-      // Show action bar for single item
-      setSelectedClosetItem(item);
-      setActionBarVisible(true);
+      // Enter selection mode and select the current item
+      setSelectionMode(true);
+      setSelectedItems(new Set([item.id]));
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-  };
-
-  const handleActionBarClose = () => {
-    setActionBarVisible(false);
-    setSelectedClosetItem(null);
-  };
-
-  const handleAddToQueue = () => {
-    if (selectedClosetItem) {
-      handleClosetItemTap(selectedClosetItem);
-    }
-    handleActionBarClose();
-  };
-
-  const handleActionBarPost = () => {
-    if (selectedClosetItem) {
-      // TODO: Implement post functionality
-      console.log('Post item:', selectedClosetItem);
-      showToast('Post functionality coming soon!');
-    }
-    handleActionBarClose();
-  };
-
-  const handleActionBarDelete = () => {
-    if (selectedClosetItem) {
-      Alert.alert(
-        'Delete Item',
-        'Are you sure you want to delete this item?',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          {
-            text: 'Delete',
-            style: 'destructive',
-            onPress: () => {
-              setClosetItems(prev => prev.filter(item => item.id !== selectedClosetItem.id));
-              showToast('Item deleted');
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-            }
-          },
-        ]
-      );
-    }
-    handleActionBarClose();
   };
 
   const handleBatchAddToQueue = () => {
@@ -855,13 +738,6 @@ export default function AvatarScreen() {
     onBatchDelete={handleBatchDelete}
     onBatchPost={handleBatchPost}
     onExitSelectionMode={exitSelectionMode}
-  />
-  <LongPressActionBar
-    visible={actionBarVisible}
-    onClose={handleActionBarClose}
-    onAddToQueue={handleAddToQueue}
-    onPost={handleActionBarPost}
-    onDelete={handleActionBarDelete}
   />
   {toast && (
     <View style={styles.toast} pointerEvents="none">
@@ -1538,73 +1414,5 @@ const styles = StyleSheet.create({
   selectionIndicatorSelected: {
     backgroundColor: '#111',
     borderColor: '#111',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  actionBarContainer: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 12,
-  },
-  selectionHeader: {
-    alignItems: 'center',
-    marginBottom: 12,
-    paddingBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
-  },
-  selectionCountText: {
-    fontFamily: Typography.fontFamily,
-    fontSize: 16,
-    fontWeight: Typography.fontWeight.semibold,
-    color: Colors.text.primary,
-  },
-  actionBar: {
-    height: 64,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  longPressActionButton: {
-    flex: 1,
-    height: 44,
-    borderRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 6,
-  },
-  addToQueueButton: {
-    backgroundColor: '#000000',
-  },
-  postButton: {
-    backgroundColor: '#F5F5F5',
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-  },
-  deleteButton: {
-    backgroundColor: '#FF3B30',
-  },
-  actionButtonText: {
-    fontFamily: Typography.fontFamily,
-    fontSize: 14,
-    fontWeight: Typography.fontWeight.semibold,
-    color: '#FFFFFF',
-    marginLeft: 8,
-    letterSpacing: 0.2,
-  },
-  postButtonText: {
-    fontFamily: Typography.fontFamily,
-    fontSize: 14,
-    fontWeight: Typography.fontWeight.semibold,
-    color: '#666666',
-    marginLeft: 8,
-    letterSpacing: 0.2,
   },
 });

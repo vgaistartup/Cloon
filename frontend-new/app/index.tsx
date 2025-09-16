@@ -15,7 +15,7 @@ export default function IndexScreen() {
   const checkAuthStatus = async () => {
     try {
       const isAuthenticated = await AuthService.isAuthenticated();
-      
+
       // Delay for splash effect
       setTimeout(() => {
         if (isAuthenticated) {
@@ -26,7 +26,10 @@ export default function IndexScreen() {
       }, 2000);
     } catch (error) {
       console.error('Auth check error:', error);
-      router.replace('/auth');
+      // On error, default to auth screen instead of crashing
+      setTimeout(() => {
+        router.replace('/auth');
+      }, 2000);
     }
   };
 
